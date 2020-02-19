@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 setup(
     name="Qmlview",
-    version="1.2",
+    version="2.0",
     packages=find_packages(),
-    install_requires=['PyQt5 >= 5.10'],
+    install_requires=['PyQt5 >= 5.10, <5.15'],
     entry_points={
             'console_scripts': ['qmlview = Qmlview.qmlview:main_run'],
     },

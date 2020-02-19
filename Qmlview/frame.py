@@ -206,7 +206,6 @@ class PhoneFrame():
         n_frame_lines = frame_imps
         n_frame_lines.extend(frame_body)
 
-        # Put in the default title and color
         n_frame_lines = self._change_content(4,
                                              'title: "{MainWindowItem}"',
                                              self.wind_user_props['title'],
