@@ -12,11 +12,11 @@ setup(
     author_email="amohgyebigodwin@gmail.com",
     description="An alternative to qmlscene",
     keywords="qmlview, qmlscene, ninja-preview, qml, pyqt, pyqt5, pyside, pyside2",
-    url="https://github.com/amoh-godwin/Qmlview",
+    url="https://github.com/amoh-godwin/Qmlview-wheel",
     project_urls={
-        "Bug Tracker": "https://github.com/amoh-godwin/Qmlview/issues",
-        "Documentation": "https://github.com/amoh-godwin/Qmlview/wiki",
-        "Source Code": "https://github.com/amoh-godwin/Qmlview",
+        "Bug Tracker": "https://github.com/amoh-godwin/Qmlview-wheel/issues",
+        "Documentation": "https://github.com/amoh-godwin/Qmlview-wheel/wiki",
+        "Source Code": "https://github.com/amoh-godwin/Qmlview-wheel",
     },
     classifiers = [
         "Programming Language :: Python",
