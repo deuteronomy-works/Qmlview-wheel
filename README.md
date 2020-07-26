@@ -1,4 +1,4 @@
-# Qmlview-wheel
+# Qmlview-wheel [![Downloads](https://pepy.tech/badge/qmlview)](https://pepy.tech/project/qmlview)
 The wheel distribution repo for Qmlview
 
 Qmlview is a command line utility. But sort of to replace the non-existent qmlscene, which was used to preview qml source code before it is loaded by any C++, Java, or python code.
