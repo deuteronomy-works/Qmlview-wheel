@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+from platform import system
 from base64 import b64decode
 from PyQt5.QtCore import QUrl, QResource, QT_VERSION_STR
 from PyQt5.QtGui import QGuiApplication, QIcon
@@ -55,7 +56,10 @@ PARAMS = {
         '-h': param_help, '--h': param_help
         }
 
-PATH_EG = os.path.join(os.environ['USERPROFILE'], 'main.qml')
+if system().lower() == 'windows':
+    PATH_EG = os.path.join(os.environ['USERPROFILE'], 'main.qml')
+else:
+    PATH_EG = os.path.join(os.environ['HOME'], 'main.qml')
 
 
 
