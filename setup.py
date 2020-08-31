@@ -4,7 +4,7 @@ with open('README.md', 'r') as r_file:
 
 setup(
     name="Qmlview",
-    version="2.1.2",
+    version="2.1.3",
     packages=find_packages(),
     install_requires=['PyQt5 >= 5.10, <=5.15'],
     entry_points={
