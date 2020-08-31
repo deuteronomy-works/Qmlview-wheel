@@ -16,3 +16,6 @@ Qmlview is a command line utility. But sort of to replace the non-existent qmlsc
 
 ### V2.1.2
 * Bugfix
+
+### V2.2
+Compress resource
