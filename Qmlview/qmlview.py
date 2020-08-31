@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+from lzma import decompress
 from platform import system
 from base64 import b64decode
 from PyQt5.QtCore import QUrl, QResource, QT_VERSION_STR
@@ -12,7 +13,7 @@ from Qmlview.frame import PhoneFrame
 
 from Qmlview._qmlview_resource_ import rcc
 
-rcc_data = b64decode(rcc)
+rcc_data = decompress(b64decode(rcc))
 
 with open('_qmlview_resource_.rcc', 'wb') as rcc_b:
     rcc_b.write(rcc_data)
