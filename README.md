@@ -19,3 +19,6 @@ Qmlview is a command line utility. But sort of to replace the non-existent qmlsc
 
 ### V2.2
 Compress resource
+
+#### V3.0
+* Works with PyQt6
