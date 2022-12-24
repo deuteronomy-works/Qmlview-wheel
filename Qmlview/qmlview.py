@@ -26,22 +26,45 @@ with open('_qmlview_resource_.rcc', 'wb') as rcc_b:
 QResource.registerResource("_qmlview_resource_.rcc")
 
 
+LIVE_SET = False
+live_obj = None
+
+
 def param_help():
+    """
+    Parameter for help handler
+    """
     print_help()
     house_keeping(0)
 
 
+def param_live_reload():
+    """
+    Parameter for Live reloading handler
+    """
+    live()
+
+
 def param_phone():
+    """
+    Parameter for phone handler
+    """
     run_in_frame()
 
 
 def param_version():
+    """
+    Parameter for phone handler
+    """
     print(VERSION)
     house_keeping(0)
 
 
-def cleanUp():
-    pass
+def clean_up():
+    """
+    Function to clean up all our letfover files
+    before exiting
+    """
 
 
 ERROR_CODES = {1: 'Qml rootObject Could Not Be Created', 2: 'File Not Found',
@@ -51,11 +74,12 @@ HELP_PARAMS = {
         '-v': param_version, '--v': param_version,
         '-help': param_help, '--help': param_help,
         '-h': param_help, '--h': param_help}
-VERSION = 'Qt ' +  QT_VERSION_STR
 
 PARAMS = {
         '-phone': param_phone, '--phone': param_phone,
         '-p': param_phone, '--p': param_phone,
+        '-live': param_live_reload, '--live': param_live_reload,
+        '-l': param_live_reload, '--l': param_live_reload,
         '-version': param_version, '--version': param_version,
         '-v': param_version, '--v': param_version,
         '-help': param_help, '--help': param_help,
@@ -67,10 +91,13 @@ if system().lower() == 'windows':
 else:
     PATH_EG = os.path.join(os.environ['HOME'], 'main.qml')
 
+VERSION = 'Qt ' +  QT_VERSION_STR
 
 
 def chk_style():
-    # check if it contains styling
+    """
+     check if it contains styling
+    """
     chk = Check(sys.argv[1])
     style_name = chk.check_style()
 
@@ -79,6 +106,10 @@ def chk_style():
 
 
 def _construct_Qurl(path):
+    """
+     A helper function to make sure scheme
+     and etc is set for correct QUrl
+    """
     url = QUrl()
     url.setScheme("file")
     raw_path = "/" + os.path.dirname(path) + "/"
@@ -87,7 +118,9 @@ def _construct_Qurl(path):
 
 
 def fix_qml():
-    # fix if it is a component
+    """
+     fix if it is a component
+    """
     fix = FixQml(sys.argv[1])
     chk = Check(sys.argv[1])
     status = chk.check_for_parent()
@@ -112,10 +145,45 @@ def house_keeping(exit_code):
     filename = os.path.join(os.getcwd(), '_qmlview_resource_.rcc')
     if os.path.exists(filename):
         os.unlink(filename)
+    """
+    Delete resource file, removed in the bundled version
+    then makes the call to the system Exit
+    """
+
+    global live_obj
+
+    if live_obj:
+        live_obj.not_closed= True
+        # delete random file
+        fn = live_obj.filename
+        if os.path.exists(fn):
+            os.unlink(fn)
+        
+        # Delete Live generated files
+        patt = os.path.join(live_obj.folder, 'Live*_*.qml')
+        items = glob(patt)
+
+        sleep(0.2)
+        for item in items:
+            os.unlink(item)
+
     # exit
     sys.exit(exit_code)
 
+def live():
+    global LIVE_SET
+    LIVE_SET = True
+
+    chk_style()
+
+    engine.quit.connect(app.quit)
+    engine.load('qrc:///qml/live.qml')
+
 def put_into_frame():
+    """
+    This is where we put the qml code
+    into a phone frame.
+    """
 
     chk = Check(sys.argv[1])
     status = chk.check_for_parent()
@@ -131,6 +199,10 @@ def put_into_frame():
     engine.loadData(bytes(ret_data, 'utf-8'), url)
 
 def run():
+    """
+    Does the actually call to the engine,
+    this function is however not for the phone parameter call
+    """
     # run the for engine
     chk_style()
     # contains the call to the engine
@@ -138,6 +210,10 @@ def run():
 
 
 def run_in_frame():
+    """
+    Does the actually call to the engine,
+    this function is however is only for the phone parameter call
+    """
 
     chk_style()
 
@@ -145,10 +221,14 @@ def run_in_frame():
 
 
 def print_help():
+    """
+    Prints the help message to the prompt
+    """
     print('''
 Usage: qmlview source [Optional PARAMS]
                source The .qml file to be run. This should be a full path
           \t      [-phone, --phone, -p, --p] Runs source in phone mode
+          \t      [-live, --live, -l, --l] Runs source in live(auto-reload) mode
           \t      [help, --help, -h, --h] Prints this help screen.
 
 eg:
@@ -165,7 +245,7 @@ def main_run():
 
 
 if len(sys.argv) > 1:
-    
+
     # if help param
     if sys.argv[1] in HELP_PARAMS:
         # it is a parameter
@@ -190,7 +270,7 @@ if len(sys.argv) > 1:
             app = QGuiApplication(sys.argv)
 
         app.setWindowIcon(QIcon(':/icons/logo.png'))
-        app.aboutToQuit.connect(cleanUp)
+        app.aboutToQuit.connect(clean_up)
         engine = QQmlApplicationEngine()
     else:
         print('qmlview error: File Not Found [{0}]'.format(sys.argv[1]))
@@ -202,7 +282,7 @@ if len(sys.argv) > 1:
     # check if it comes with parameters
 
     if len(sys.argv) > 2:
-        
+
         if sys.argv[2] in PARAMS:
             # has a parameter
             func = PARAMS[sys.argv[2]]
@@ -220,5 +300,12 @@ else:
     print('Usage: qmlview file or ./qmlview file')
     house_keeping(2)
 
+# if live parameter is used
+if LIVE_SET:
+    live_obj = Live(os.path.realpath(sys.argv[1]))
+    engine.rootObjects()[0].setProperty('__qmlview__live_o_bject', live_obj)
+    engine.rootObjects()[0].setProperty('filename', sys.argv[1])
+else:
+    pass
 
-house_keeping(app.exec_())
+house_keeping(app.exec())
