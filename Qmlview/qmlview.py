@@ -9,10 +9,10 @@ import os
 from lzma import decompress
 from platform import system
 from base64 import b64decode
-from PyQt5.QtCore import QUrl, QResource, QT_VERSION_STR
-from PyQt5.QtGui import QGuiApplication, QIcon
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtQml import QQmlApplicationEngine
+from PyQt6.QtCore import QUrl, QResource, QT_VERSION_STR
+from PyQt6.QtGui import QGuiApplication, QIcon
+from PyQt6.QtWidgets import QApplication
+from PyQt6.QtQml import QQmlApplicationEngine
 from Qmlview.func import FixQml, Check
 from Qmlview.frame import PhoneFrame
 
