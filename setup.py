@@ -4,9 +4,9 @@ with open('README.md', 'r') as r_file:
 
 setup(
     name="Qmlview",
-    version="2.2",
+    version="3.0",
     packages=find_packages(),
-    install_requires=['PyQt5 >= 5.10, <=5.15'],
+    install_requires=['PyQt6'],
     entry_points={
             'console_scripts': ['qmlview = Qmlview.qmlview:main_run'],
     },
@@ -16,7 +16,7 @@ setup(
     description="An alternative to qmlscene",
     long_description=desc,
     long_description_content_type="text/markdown",
-    keywords="qmlview, qmlscene, ninja-preview, qml, pyqt, pyqt5, pyside, pyside2",
+    keywords="qmlview, qmlscene, ninja-preview, qml, pyqt, pyqt6, pyside, pyside6",
     url="https://github.com/amoh-godwin/Qmlview-wheel",
     project_urls={
         "Bug Tracker": "https://github.com/amoh-godwin/Qmlview-wheel/issues",
