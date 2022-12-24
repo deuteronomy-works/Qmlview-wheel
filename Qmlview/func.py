@@ -1,7 +1,8 @@
 import os
 import re
-from PyQt5.QtCore import QFile, QIODevice, QResource
+from PyQt6.QtCore import QFile, QIODevice, QResource
 QResource.registerResource("_qmlview_resource_.rcc")
+
 
 class Check():
 
@@ -39,7 +40,7 @@ class Check():
         
         with open(self.filename, 'r') as o_file:
             data = o_file.read(1024)
-            info = re.findall('\n\s*import QtQuick.Controls.[A-Za-z]+ ', data)
+            info = re.findall(r'\n\s*import QtQuick.Controls.[A-Za-z]+ ', data)
 
         # take it and remove the space after it
         if info:
