@@ -6,7 +6,7 @@ Created on Fri Oct 18 12:04:47 2019
 """
 from PyQt6.QtCore import QFile, QResource, QIODevice
 
-from misc import Split
+from Qmlview.misc import Split
 
 QResource.registerResource("_qmlview_resource_.rcc")
 
