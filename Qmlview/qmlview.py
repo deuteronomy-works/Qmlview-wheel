@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+The entry file for qmlview.
+* Contains the call to the QGuiApplication or the QApplication
+* Contains the call to the engine
+"""
 import sys
 import os
 from lzma import decompress
