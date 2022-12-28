@@ -16,12 +16,16 @@ from PyQt6.QtQml import QQmlApplicationEngine
 from Qmlview.func import FixQml, Check
 from Qmlview.frame import PhoneFrame
 
-from Qmlview._qmlview_resource_ import rcc
 
-rcc_data = decompress(b64decode(rcc))
+RESOURCE_FILE = '_qmlview_resource_.rcc'
 
-with open('_qmlview_resource_.rcc', 'wb') as rcc_b:
-    rcc_b.write(rcc_data)
+if not os.path.exists(RESOURCE_FILE):
+
+    from Qmlview._qmlview_resource_ import rcc
+
+    rcc_data = decompress(b64decode(rcc))
+    with open('_qmlview_resource_.rcc', 'wb') as rcc_b:
+        rcc_b.write(rcc_data)
 
 QResource.registerResource("_qmlview_resource_.rcc")
 
@@ -142,9 +146,12 @@ def fix_qml():
 
 def house_keeping(exit_code):
     # delete resource file
+    # Update do not delete, it delays code
+    """
     filename = os.path.join(os.getcwd(), '_qmlview_resource_.rcc')
     if os.path.exists(filename):
         os.unlink(filename)
+    """
     """
     Delete resource file, removed in the bundled version
     then makes the call to the system Exit
