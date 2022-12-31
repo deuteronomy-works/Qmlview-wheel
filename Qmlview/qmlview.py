@@ -252,16 +252,28 @@ def main_run():
         pass
 
 
-if len(sys.argv) > 1:
+arg_len = len(sys.argv)
+args = sys.argv
+
+if arg_len > 2:
+    for param in PRE_RUN_PARAMS_TUPLE:
+        if param in args:
+            func = PRE_RUN_PARAMS[param]
+            # run that param function
+            func()
+            args.remove(param)
+            arg_len -= 1
+
+if arg_len > 1:
 
     # if help param
-    if sys.argv[1] in HELP_PARAMS:
+    if args[1] in HELP_PARAMS:
         # it is a parameter
-        help_func = HELP_PARAMS[sys.argv[1]]
+        help_func = HELP_PARAMS[args[1]]
         # run that param function
         help_func()
     # if files exist
-    elif os.path.exists(sys.argv[1]):
+    elif os.path.exists(args[1]):
         """
         Qt Charts require QApplication.
         And so we use that if the qml code imports QtCharts
@@ -269,7 +281,7 @@ if len(sys.argv) > 1:
         statement but not in a function
         """
         # Check if it import QtCharts
-        chk = Check(sys.argv[1])
+        chk = Check(args[1])
         contains_qtchart = chk.check_for_qtcharts()
         # use that to decide what to use
         if contains_qtchart:
@@ -281,7 +293,7 @@ if len(sys.argv) > 1:
         app.aboutToQuit.connect(clean_up)
         engine = QQmlApplicationEngine()
     else:
-        print('qmlview error: File Not Found [{0}]'.format(sys.argv[1]))
+        print('qmlview error: File Not Found [{0}]'.format(args[1]))
         print('Please write Filepath in full.')
         print('    Eg:', PATH_EG)
         print('or Do: qmlview -help or --help: for help')
@@ -289,17 +301,18 @@ if len(sys.argv) > 1:
 
     # check if it comes with parameters
 
-    if len(sys.argv) > 2:
+    if arg_len > 2:
 
-        if sys.argv[2] in PARAMS:
-            # has a parameter
-            func = PARAMS[sys.argv[2]]
-            # run that param function
-            func()
-        else:
-            print('qmlview error: Invalid Parameter')
-            print_help()
-            house_keeping(3)
+        for arg in args:
+            if arg in PARAMS:
+                # has a parameter
+                func = PARAMS[arg]
+                # run that param function
+                func()
+            else:
+                print(f'qmlview error: Invalid Parameter: {arg}')
+                print_help()
+                house_keeping(3)
     else:
         # it has no other parameter
         run()
@@ -310,9 +323,9 @@ else:
 
 # if live parameter is used
 if LIVE_SET:
-    live_obj = Live(os.path.realpath(sys.argv[1]))
+    live_obj = Live(os.path.realpath(args[1]))
     engine.rootObjects()[0].setProperty('__qmlview__live_o_bject', live_obj)
-    engine.rootObjects()[0].setProperty('filename', sys.argv[1])
+    engine.rootObjects()[0].setProperty('filename', args[1])
 else:
     pass
 
