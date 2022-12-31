@@ -248,7 +248,8 @@ Note: Help works even without a source specified.
 
 def main_run():
     if os.path.exists('_qmlview_resource.rcc'):
-        os.remove('_qmlview_resource.rcc')
+        # os.remove('_qmlview_resource.rcc')
+        pass
 
 
 if len(sys.argv) > 1:
