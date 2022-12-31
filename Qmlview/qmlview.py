@@ -13,6 +13,7 @@ from PyQt6.QtCore import QUrl, QResource, QT_VERSION_STR
 from PyQt6.QtGui import QGuiApplication, QIcon
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtQml import QQmlApplicationEngine
+from PyQt6.QtQuick import QQuickWindow
 from Qmlview.func import FixQml, Check
 from Qmlview.frame import PhoneFrame
 
@@ -56,6 +57,14 @@ def param_phone():
     run_in_frame()
 
 
+def param_scene_backend():
+    """
+    Parameter for the scene backend
+    When called default to software
+    """
+    QQuickWindow.setSceneGraphBackend('software')
+
+
 def param_version():
     """
     Parameter for phone handler
@@ -89,6 +98,11 @@ PARAMS = {
         '-help': param_help, '--help': param_help,
         '-h': param_help, '--h': param_help
         }
+
+PRE_RUN_PARAMS = {
+    '-software': param_scene_backend, '--software': param_scene_backend
+}
+PRE_RUN_PARAMS_TUPLE = ('-software', '--software')
 
 if system().lower() == 'windows':
     PATH_EG = os.path.join(os.environ['USERPROFILE'], 'main.qml')
