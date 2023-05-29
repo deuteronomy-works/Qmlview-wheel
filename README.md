@@ -25,3 +25,6 @@ Compress resource
 
 ### v3.1
 * supports scene backend software parameter with `-software` parameter
+
+### V3.2
+* Support Qt6.5.1
