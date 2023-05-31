@@ -57,12 +57,14 @@ def param_phone():
     run_in_frame()
 
 
-def param_scene_backend():
+def param_scene_backend(param):
     """
     Parameter for the scene backend
     When called default to software
     """
-    QQuickWindow.setSceneGraphBackend('software')
+    c_param = param.replace('-', '')
+    print(f'Using parameter: {c_param}')
+    QQuickWindow.setSceneGraphBackend(c_param)')
 
 
 def param_version():
@@ -100,9 +102,16 @@ PARAMS = {
         }
 
 PRE_RUN_PARAMS = {
-    '-software': param_scene_backend, '--software': param_scene_backend
+    '-software': param_scene_backend, '--software': param_scene_backend,
+    '-openvg': param_scene_backend, '--openvg': param_scene_backend,
+    '-rhi': param_scene_backend, '--rhi': param_scene_backend,
+    '-gtk': param_scene_backend, '--gtk': param_scene_backend
 }
-PRE_RUN_PARAMS_TUPLE = ('-software', '--software')
+PRE_RUN_PARAMS_TUPLE = (
+    '-software', '--software',
+    '-openvg', '--openvg',
+    '-rhi', '--rhi',
+    '-gtk', '--gtk')
 
 if system().lower() == 'windows':
     PATH_EG = os.path.join(os.environ['USERPROFILE'], 'main.qml')
@@ -274,7 +283,7 @@ if arg_len > 2:
         if param in args:
             func = PRE_RUN_PARAMS[param]
             # run that param function
-            func()
+            func(param)
             args.remove(param)
             arg_len -= 1
 
