@@ -6,7 +6,7 @@ setup(
     name="Qmlview",
     version="3.2.2b0",
     packages=find_packages(),
-    install_requires=['PyQt6-Qt6', 'PyQt6>=6.5.1'],
+    install_requires=['PyQt6-Qt6>=6.5.1', 'PyQt6'],
     entry_points={
             'console_scripts': ['qmlview = Qmlview.qmlview:main_run'],
     },
